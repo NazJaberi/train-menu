@@ -46,7 +46,7 @@ type Section = {
 
 // =============== Data =================
 
-const sections: Section[] = [
+const sectionsSeed: Section[] = [
   {
     id: "hot",
     label: "Hot Drinks (Coffee)",
@@ -165,6 +165,54 @@ const sections: Section[] = [
   },
 ];
 
+// Map item names to static image paths in /public/menu
+const imageMap: Record<string, string> = {
+  // Hot Drinks
+  "latte": "/menu/Latte/Latte.png",
+  "cappuccino": "/menu/Cappuccino/Cappuccino.png",
+  "americano": "/menu/Americano/Americano.png",
+  "spanish latte": "/menu/spanish latte/spanish latte.png",
+  "hot chocolate": "/menu/Hot Coco/Hot Chocolate.png",
+  "single espresso": "/menu/Espresso/espresso.png",
+  "double espresso": "/menu/Espresso/espresso.png",
+  "cortado": "/menu/Cortado/Cortado.png",
+  "affogato": "/menu/Affogato/Affogato.png",
+
+  // Cold Drinks
+  "iced latte": "/menu/iced Late/Iced latte.png",
+  "iced americano": "/menu/Iced Americano/Iced_Americano.png",
+  "iced spanish": "/menu/iced spanish latte/iced_spanish_latte.png",
+  "vanilla milk shake": "/menu/Vanilla milk shake/Vanilla milk shake.png",
+  "saffron latte": "/menu/Saffron latte/Saffron latte.png",
+  "salted caramel": "/menu/Iced Salted Caramel/Iced Salted Caramel.png",
+
+  // Juices
+  "melon juice": "/menu/Melon juice/Melon juice.png",
+  "mango": "/menu/Mango Juice/Mango Juice.png",
+  "mixed berries": "/menu/mixed berries/mixed berries.png",
+  "vitamin c": "/menu/Vitamin C/Vitamin C.png",
+  "go green": "/menu/Go Green/Go Green.png",
+  "carrots juice": "/menu/Carrot Juice/Carrot Juice.png",
+
+  // Smoothies
+  "mango smoothie": "/menu/Mango Smoothie/Mango Smoothie.png",
+  "avocado smoothie": "/menu/avocado smoothie/avocado smoothie.png",
+  "supper berries": "/menu/mixed berries smoothie/mixed berries smoothie.png",
+  "mixed nuts": "/menu/nuts smoothie/nuts smoothie.png",
+  "banana": "/menu/Banana Smoothie/Banana Smoothie.png",
+  "cookies shake": "/menu/Cookies shake/Cookies shake.png",
+};
+
+const nameKey = (s: string) => s.trim().toLowerCase();
+
+const sections: Section[] = sectionsSeed.map((sec) => ({
+  ...sec,
+  items: sec.items.map((it) => {
+    const img = imageMap[nameKey(it.name)];
+    return img ? { ...it, image: img } : it;
+  }),
+}));
+
 // =============== Helpers =================
 
 const currency = "BHD"; // change if needed
@@ -203,12 +251,12 @@ function Pill({
 
 function MenuCard({ item }: { item: Item }) {
   return (
-    <div className="group flex items-center gap-3 sm:gap-4 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur p-4 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all">
+    <div className="group flex items-center gap-4 md:gap-5 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur p-4 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all">
       {item.image && (
         <img
           src={item.image}
           alt={item.name}
-          className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl object-cover flex-shrink-0 border border-zinc-200/60 dark:border-zinc-800/80"
+          className="h-24 w-24 md:h-28 md:w-28 rounded-xl object-cover flex-shrink-0 border border-zinc-200/60 dark:border-zinc-800/80"
           loading="lazy"
         />
       )}
@@ -278,20 +326,8 @@ export default function TrainTherapyMenu() {
         {/* Nav */}
         <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/40 border-b border-zinc-200/60 dark:border-zinc-800/70">
           <div className="mx-auto max-w-6xl px-4 py-3">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 mr-1">
-                <img src="/logo.jpg" alt="Train Therapy" className="h-9 w-9 rounded-xl object-cover border border-sky-500/30" />
-                <div>
-                  <div className="text-[11px] tracking-[0.2em] uppercase text-sky-600 dark:text-sky-400 font-semibold">
-                    Menu
-                  </div>
-                  <div className="-mt-0.5 text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                    Train Therapy
-                  </div>
-                </div>
-              </div>
-
-              <nav className="hidden md:flex items-center gap-1 ml-4">
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+              <nav className="hidden md:flex items-center gap-1 justify-self-start">
                 {sections.map((s) => (
                   <button
                     key={s.id}
@@ -303,7 +339,14 @@ export default function TrainTherapyMenu() {
                 ))}
               </nav>
 
-              <div className="ml-auto hidden sm:block relative">
+              <div className="flex items-center gap-3 justify-self-center">
+                <img src="/logo.jpg" alt="Train Therapy" className="h-12 w-12 md:h-14 md:w-14 rounded-2xl object-cover border border-sky-500/30" />
+                <div className="-mt-0.5 text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                  Menu
+                </div>
+              </div>
+
+              <div className="hidden sm:block relative justify-self-end">
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -311,22 +354,6 @@ export default function TrainTherapyMenu() {
                   className="w-56 md:w-72 rounded-xl border border-zinc-300/70 dark:border-zinc-700/80 bg-white/80 dark:bg-zinc-900/70 pl-10 pr-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40"
                 />
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-              </div>
-            </div>
-
-            {/* Mobile category scroller */}
-            <div className="md:hidden mt-3 -mb-2 overflow-x-auto no-scrollbar">
-              <div className="flex gap-2 pr-2">
-                {sections.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => handleScroll(s.id)}
-                    className="flex items-center gap-2 whitespace-nowrap rounded-full border border-zinc-300/70 bg-white/80 px-3 py-2 text-sm text-zinc-700 hover:border-sky-500/60 hover:text-sky-600 active:scale-[0.98] transition"
-                  >
-                    <span className="text-sky-600">{s.icon}</span>
-                    {shortLabel(s.label)}
-                  </button>
-                ))}
               </div>
             </div>
           </div>
@@ -406,6 +433,24 @@ export default function TrainTherapyMenu() {
             </div>
           </div>
         </section>
+
+        {/* Mobile/iPad categories above search */}
+        <div className="mx-auto max-w-6xl px-4 xl:hidden mt-2">
+          <div className="-mx-1 overflow-x-auto no-scrollbar">
+            <div className="flex gap-2 px-1 pb-2">
+              {sections.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => handleScroll(s.id)}
+                  className="flex items-center gap-2 whitespace-nowrap rounded-full border border-zinc-300/70 bg-white/80 px-3 py-2 text-sm text-zinc-700 hover:border-sky-500/60 hover:text-sky-600 active:scale-[0.98] transition"
+                >
+                  <span className="text-sky-600">{s.icon}</span>
+                  {shortLabel(s.label)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Search (mobile) */}
         <div className="mx-auto max-w-6xl px-4 pb-4 sm:hidden">
