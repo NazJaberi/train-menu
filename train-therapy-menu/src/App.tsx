@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { nutritionByItem } from "./nutrition";
 import {
   Search,
   ChevronRight,
@@ -47,7 +48,9 @@ type Section = {
 };
 
 type Macro = { label: string; value: string };
+type SizeKey = "regular" | "large";
 type Nutrition = { benefits: string[]; macros: Macro[] };
+type ItemNutrition = { benefits: string[]; macros: Record<SizeKey, Macro[]>; source?: string };
 
 // =============== Data =================
 
@@ -513,6 +516,9 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
+  const slug = slugify(item.name);
+  const itemNut: ItemNutrition | undefined = (nutritionByItem as any)[slug];
+
   return (
     <div className="fixed inset-0 z-[60]">
       <div
@@ -580,13 +586,13 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
               </div>
             )}
 
-            {info && (
+            {(itemNut || info) && (
               <div className="mt-4">
                 <div className="text-[11px] uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 font-semibold mb-2">
                   Health Benefits
                 </div>
                 <ul className="space-y-1.5">
-                  {info.benefits.map((b, i) => (
+                  {(itemNut?.benefits || info?.benefits || []).map((b, i) => (
                     <li key={i} className="flex items-start gap-2 text-zinc-700 dark:text-zinc-200">
                       <CheckCircle className="h-4 w-4 mt-0.5 text-sky-600" />
                       <span>{b}</span>
@@ -598,13 +604,21 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
                   Typical Macros
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {info.macros.map((m, i) => (
+                  {(itemNut
+                    ? (itemNut.macros[size] || [])
+                    : (info?.macros || []).map((m) => ({ ...m, value: pickMacroForSize(m.value) }))
+                  ).map((m, i) => (
                     <div key={i} className="rounded-xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/60 px-3 py-2 text-center shadow-sm">
                       <div className="text-[10px] uppercase tracking-wide text-zinc-500 dark:text-zinc-400">{m.label}</div>
-                      <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{pickMacroForSize(m.value)}</div>
+                      <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{m.value}</div>
                     </div>
                   ))}
                 </div>
+                {itemNut?.source && (
+                  <div className="mt-3 text-[10px] text-zinc-500 dark:text-zinc-400">
+                    Source: {itemNut.source}
+                  </div>
+                )}
 
                 <div className="mt-4 text-[11px] text-zinc-500 dark:text-zinc-400">
                   Values are approximate and vary by flavor, size and customization.
