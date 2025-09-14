@@ -11,6 +11,8 @@ import {
   Award,
   Cookie,
   Sparkles,
+  X,
+  CheckCircle,
 } from "lucide-react";
 
 /*
@@ -43,6 +45,9 @@ type Section = {
   icon: React.ReactNode;
   items: Item[];
 };
+
+type Macro = { label: string; value: string };
+type Nutrition = { benefits: string[]; macros: Macro[] };
 
 // =============== Data =================
 
@@ -213,6 +218,133 @@ const sections: Section[] = sectionsSeed.map((sec) => ({
   }),
 }));
 
+// Nutrition & benefits by section
+const nutritionBySection: Record<string, Nutrition> = {
+  hot: {
+    benefits: [
+      "Natural caffeine may boost focus & performance",
+      "Coffee contains polyphenol antioxidants",
+      "Low calories when taken without added sugar",
+    ],
+    macros: [
+      { label: "Calories", value: "5–180 kcal" },
+      { label: "Protein", value: "0–9 g" },
+      { label: "Carbs", value: "0–20 g" },
+      { label: "Fat", value: "0–9 g" },
+      { label: "Sugar", value: "0–18 g" },
+    ],
+  },
+  cold: {
+    benefits: [
+      "Chilled coffee for refreshing energy",
+      "Customizable sweetness & milk options",
+      "Same antioxidants as hot coffee",
+    ],
+    macros: [
+      { label: "Calories", value: "20–220 kcal" },
+      { label: "Protein", value: "0–10 g" },
+      { label: "Carbs", value: "2–28 g" },
+      { label: "Fat", value: "0–10 g" },
+      { label: "Sugar", value: "0–24 g" },
+    ],
+  },
+  juices: {
+    benefits: [
+      "Hydration with natural fruit micronutrients",
+      "Rich source of Vitamin C in many blends",
+      "Refreshing, great pre/post‑workout pick‑me‑up",
+    ],
+    macros: [
+      { label: "Calories", value: "120–180 kcal" },
+      { label: "Carbs", value: "25–40 g" },
+      { label: "Sugar", value: "20–36 g" },
+      { label: "Fiber", value: "1–3 g" },
+    ],
+  },
+  smoothies: {
+    benefits: [
+      "Fruit blends with fiber for steady energy",
+      "Add‑ins can support recovery & satiety",
+      "Cooling and satisfying",
+    ],
+    macros: [
+      { label: "Calories", value: "180–350 kcal" },
+      { label: "Protein", value: "3–15 g" },
+      { label: "Carbs", value: "25–55 g" },
+      { label: "Fat", value: "2–12 g" },
+      { label: "Fiber", value: "2–6 g" },
+    ],
+  },
+  shots: {
+    benefits: [
+      "Quick ginger/citrus kick",
+      "Zesty boost to start the day",
+      "Light and low‑calorie",
+    ],
+    macros: [
+      { label: "Calories", value: "10–40 kcal" },
+      { label: "Carbs", value: "2–8 g" },
+      { label: "Sugar", value: "1–6 g" },
+    ],
+  },
+  protein: {
+    benefits: [
+      "High‑quality protein supports muscle recovery",
+      "Great post‑training option",
+      "Custom flavors & add‑ins",
+    ],
+    macros: [
+      { label: "Calories", value: "180–300 kcal" },
+      { label: "Protein", value: "20–35 g" },
+      { label: "Carbs", value: "3–18 g" },
+      { label: "Fat", value: "2–8 g" },
+      { label: "Sugar", value: "0–8 g" },
+    ],
+  },
+  "beef-protein": {
+    benefits: [
+      "Protein with low lactose",
+      "Convenient recovery drink",
+      "Light & refreshing flavors",
+    ],
+    macros: [
+      { label: "Calories", value: "160–260 kcal" },
+      { label: "Protein", value: "20–30 g" },
+      { label: "Carbs", value: "2–12 g" },
+      { label: "Fat", value: "1–6 g" },
+      { label: "Sugar", value: "0–6 g" },
+    ],
+  },
+  signature: {
+    benefits: [
+      "House favorites with balanced flavors",
+      "Crafted for an elevated taste",
+      "Great as a treat or post‑workout",
+    ],
+    macros: [
+      { label: "Calories", value: "160–320 kcal" },
+      { label: "Protein", value: "6–20 g" },
+      { label: "Carbs", value: "15–45 g" },
+      { label: "Fat", value: "2–12 g" },
+      { label: "Sugar", value: "8–28 g" },
+    ],
+  },
+  snacks: {
+    benefits: [
+      "Protein‑forward, sugar‑conscious options",
+      "Ideal with coffee or as a snack",
+      "Satisfying textures",
+    ],
+    macros: [
+      { label: "Calories", value: "150–350 kcal" },
+      { label: "Protein", value: "8–20 g" },
+      { label: "Carbs", value: "10–30 g" },
+      { label: "Fat", value: "6–18 g" },
+      { label: "Sugar", value: "1–10 g" },
+    ],
+  },
+};
+
 // =============== Helpers =================
 
 const currency = "BHD"; // change if needed
@@ -278,9 +410,16 @@ function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
     <div
       ref={ref}
       style={{ transitionDelay: `${Math.min(index * 40, 240)}ms` }}
-      className={`group flex items-center gap-4 md:gap-5 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur p-4 shadow-sm hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out ${
+      className={`group flex items-center gap-4 md:gap-5 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur p-4 shadow-sm hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out cursor-pointer active:scale-[0.99] ${
         shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          (e.currentTarget as HTMLDivElement).click();
+        }
+      }}
     >
       {item.image && (
         <img
@@ -310,7 +449,7 @@ function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
   );
 }
 
-function SectionBlock({ s, q }: { s: Section; q: string }) {
+function SectionBlock({ s, q, onSelect }: { s: Section; q: string; onSelect: (item: Item, sectionId: string) => void }) {
   const { ref: headerRef, shown: headerShown } = useReveal();
   const filtered = useMemo(() => {
     if (!q) return s.items;
@@ -336,13 +475,148 @@ function SectionBlock({ s, q }: { s: Section; q: string }) {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
         {filtered.map((item, idx) => (
-          <MenuCard key={`${s.id}-${slugify(item.name)}`} item={item} index={idx} />
+          <div key={`${s.id}-${slugify(item.name)}`} data-section={s.id} onClick={() => onSelect(item, s.id)}>
+            <MenuCard item={item} index={idx} />
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
+function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: string; onClose: () => void }) {
+  const info = nutritionBySection[sectionId];
+  const isRange = typeof item.price === "object" && item.price !== null;
+  const [size, setSize] = useState<"regular" | "large">("regular");
+
+  // Choose price by size if range
+  const activePrice = isRange
+    ? (size === "regular" ? (item.price as any).min : (item.price as any).max)
+    : (item.price as number);
+
+  // For macro values like "180–300 kcal", pick lower for regular, upper for large
+  const pickMacroForSize = (val: string) => {
+    const parts = val.split(/\s*(?:–|-)\s*/);
+    if (parts.length === 2) {
+      const suffix = (val.match(/([a-zA-Z%]+)$/) || [""])[0];
+      const low = parts[0].trim();
+      const high = parts[1].replace(suffix, "").trim();
+      const chosen = size === "regular" ? low : high;
+      return `${chosen} ${suffix}`.trim();
+    }
+    return val;
+  };
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  return (
+    <div className="fixed inset-0 z-[60]">
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-100 transition-opacity"
+        onClick={onClose}
+      />
+      <div className="absolute inset-0 flex items-center justify-center p-2 md:p-4" onClick={onClose}>
+        <div className="w-full max-w-lg bg-white/90 dark:bg-zinc-900/90 border border-zinc-200/70 dark:border-zinc-800/70 rounded-3xl shadow-xl transition-transform" role="dialog" aria-modal="true">
+          <div className="relative p-4 md:p-6" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              className="absolute right-3 top-3 p-2 rounded-full bg-white/80 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700 text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 hover:shadow"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            {item.image && (
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-full h-48 md:h-56 object-cover rounded-2xl border border-zinc-200/60 dark:border-zinc-800/70 mb-4"
+              />
+            )}
+
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
+                  {item.name}
+                </h3>
+                {item.tag === "favorite" && (
+                  <div className="mt-1 inline-flex items-center gap-1 text-sky-600 text-sm">
+                    <Sparkles className="h-4 w-4" /> Favorite pick
+                  </div>
+                )}
+              </div>
+              <div className="text-zinc-900 dark:text-zinc-100 font-extrabold text-lg md:text-xl shrink-0">
+                {activePrice.toFixed(2)}
+                <span className="ml-1 text-xs opacity-70 font-semibold">{currency}</span>
+              </div>
+            </div>
+
+            {isRange && (
+              <div className="mt-3 inline-flex gap-2">
+                <button
+                  className={`px-3 py-1.5 rounded-full border text-sm ${
+                    size === "regular"
+                      ? "border-sky-500 text-sky-700 bg-sky-50"
+                      : "border-zinc-300 text-zinc-700 bg-white/80"
+                  }`}
+                  onClick={() => setSize("regular")}
+                >
+                  Regular · {(item.price as any).min.toFixed(2)} {currency}
+                </button>
+                <button
+                  className={`px-3 py-1.5 rounded-full border text-sm ${
+                    size === "large"
+                      ? "border-sky-500 text-sky-700 bg-sky-50"
+                      : "border-zinc-300 text-zinc-700 bg-white/80"
+                  }`}
+                  onClick={() => setSize("large")}
+                >
+                  Large · {(item.price as any).max.toFixed(2)} {currency}
+                </button>
+              </div>
+            )}
+
+            {info && (
+              <div className="mt-4">
+                <div className="text-[11px] uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 font-semibold mb-2">
+                  Health Benefits
+                </div>
+                <ul className="space-y-1.5">
+                  {info.benefits.map((b, i) => (
+                    <li key={i} className="flex items-start gap-2 text-zinc-700 dark:text-zinc-200">
+                      <CheckCircle className="h-4 w-4 mt-0.5 text-sky-600" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="text-[11px] uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 font-semibold mt-5 mb-2">
+                  Typical Macros
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  {info.macros.map((m, i) => (
+                    <div key={i} className="rounded-xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/60 px-3 py-2 text-center shadow-sm">
+                      <div className="text-[10px] uppercase tracking-wide text-zinc-500 dark:text-zinc-400">{m.label}</div>
+                      <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{pickMacroForSize(m.value)}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 text-[11px] text-zinc-500 dark:text-zinc-400">
+                  Values are approximate and vary by flavor, size and customization.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 // =============== Main =================
 
 export default function TrainTherapyMenu() {
@@ -350,6 +624,8 @@ export default function TrainTherapyMenu() {
 
   // Helper: shorter labels for mobile chips
   const shortLabel = (label: string) => label.replace(/\s*\(.*?\)\s*/g, "");
+
+  const [selected, setSelected] = useState<null | { item: Item; sectionId: string }>(null);
 
   const handleScroll = (id: string) => {
     const el = document.getElementById(id);
@@ -504,9 +780,13 @@ export default function TrainTherapyMenu() {
         {/* Sections */}
         <main className="mx-auto max-w-6xl px-4 pb-20 space-y-12 md:space-y-16">
           {sections.map((s) => (
-            <SectionBlock key={s.id} s={s} q={query} />
+            <SectionBlock key={s.id} s={s} q={query} onSelect={(item) => setSelected({ item, sectionId: s.id })} />
           ))}
         </main>
+
+        {selected && (
+          <DetailSheet item={selected.item} sectionId={selected.sectionId} onClose={() => setSelected(null)} />
+        )}
 
         {/* Footer */}
         <footer className="border-t border-zinc-200/60 dark:border-zinc-800/70 bg-white/60 dark:bg-zinc-950/40 backdrop-blur">
