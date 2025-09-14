@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Search,
   ChevronRight,
@@ -249,9 +249,39 @@ function Pill({
   );
 }
 
-function MenuCard({ item }: { item: Item }) {
+function useReveal() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || shown) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setShown(true);
+            if (el) io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "80px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [shown]);
+  return { ref, shown } as const;
+}
+
+function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
+  const { ref, shown } = useReveal();
   return (
-    <div className="group flex items-center gap-4 md:gap-5 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur p-4 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all">
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${Math.min(index * 40, 240)}ms` }}
+      className={`group flex items-center gap-4 md:gap-5 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur p-4 shadow-sm hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out ${
+        shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+      }`}
+    >
       {item.image && (
         <img
           src={item.image}
@@ -281,6 +311,7 @@ function MenuCard({ item }: { item: Item }) {
 }
 
 function SectionBlock({ s, q }: { s: Section; q: string }) {
+  const { ref: headerRef, shown: headerShown } = useReveal();
   const filtered = useMemo(() => {
     if (!q) return s.items;
     const needle = q.toLowerCase();
@@ -291,7 +322,12 @@ function SectionBlock({ s, q }: { s: Section; q: string }) {
 
   return (
     <section id={s.id} className="scroll-mt-28">
-      <div className="flex items-center gap-3 mb-4">
+      <div
+        ref={headerRef}
+        className={`flex items-center gap-3 mb-4 transition-all duration-500 ease-out ${
+          headerShown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        }`}
+      >
         <div className="shrink-0 text-sky-600 dark:text-sky-400">{s.icon}</div>
         <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
           {s.label}
@@ -299,8 +335,8 @@ function SectionBlock({ s, q }: { s: Section; q: string }) {
         <div className="h-px flex-1 bg-gradient-to-r from-sky-500/50 to-transparent ml-2" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
-        {filtered.map((item) => (
-          <MenuCard key={`${s.id}-${slugify(item.name)}`} item={item} />
+        {filtered.map((item, idx) => (
+          <MenuCard key={`${s.id}-${slugify(item.name)}`} item={item} index={idx} />
         ))}
       </div>
     </section>
@@ -324,26 +360,26 @@ export default function TrainTherapyMenu() {
     <div>
       <div className="min-h-screen bg-[radial-gradient(1200px_600px_at_100%_-10%,rgba(0,191,255,0.12),transparent),radial-gradient(1200px_600px_at_0%_120%,rgba(0,191,255,0.10),transparent)] dark:bg-[radial-gradient(1200px_600px_at_100%_-10%,rgba(0,191,255,0.18),transparent),radial-gradient(1200px_600px_at_0%_120%,rgba(0,191,255,0.16),transparent)] bg-zinc-50 dark:bg-zinc-950">
         {/* Nav */}
-        <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/40 border-b border-zinc-200/60 dark:border-zinc-800/70">
+        <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/40 border-b border-zinc-200/60 dark:border-zinc-800/70 shadow-sm">
           <div className="mx-auto max-w-6xl px-4 py-3">
             <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-              <nav className="hidden md:flex items-center gap-1 justify-self-start">
-                {sections.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => handleScroll(s.id)}
-                    className="text-sm text-zinc-700 dark:text-zinc-200 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-lg transition-colors"
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </nav>
-
-              <div className="flex items-center gap-3 justify-self-center">
+              <div className="flex items-center gap-2 justify-self-start">
                 <img src="/logo.jpg" alt="Train Therapy" className="h-12 w-12 md:h-14 md:w-14 rounded-2xl object-cover border border-sky-500/30" />
-                <div className="-mt-0.5 text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                  Menu
-                </div>
+                <nav className="hidden md:flex items-center gap-1">
+                  {sections.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => handleScroll(s.id)}
+                      className="text-sm text-zinc-700 dark:text-zinc-200 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-lg transition-colors"
+                    >
+                      {s.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+
+              <div className="justify-self-center text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                Menu
               </div>
 
               <div className="hidden sm:block relative justify-self-end">
@@ -362,7 +398,7 @@ export default function TrainTherapyMenu() {
         {/* Hero */}
         <section className="mx-auto max-w-6xl px-4 pt-10 md:pt-14 pb-6">
           <div className="grid md:grid-cols-2 gap-6 items-center">
-            <div>
+            <div className="transition-all duration-700 ease-out opacity-100">
               <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
                 Crafted with
                 <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-700">
@@ -411,7 +447,7 @@ export default function TrainTherapyMenu() {
             </div>
 
             <div className="relative">
-              <div className="rounded-[2rem] border border-sky-500/30 bg-gradient-to-br from-white/70 to-white/30 dark:from-zinc-900/60 dark:to-zinc-900/30 p-6 shadow-[0_20px_80px_rgba(0,191,255,0.15)]">
+              <div className="rounded-[2rem] border border-sky-500/30 bg-gradient-to-br from-white/70 to-white/30 dark:from-zinc-900/60 dark:to-zinc-900/30 p-6 shadow-[0_20px_80px_rgba(0,191,255,0.15)] transition-all duration-700 ease-out opacity-100 translate-y-0">
                 <div className="text-[11px] uppercase tracking-[0.25em] text-sky-600 dark:text-sky-400 font-semibold mb-2">
                   Today’s Pick
                 </div>
@@ -442,7 +478,7 @@ export default function TrainTherapyMenu() {
                 <button
                   key={s.id}
                   onClick={() => handleScroll(s.id)}
-                  className="flex items-center gap-2 whitespace-nowrap rounded-full border border-zinc-300/70 bg-white/80 px-3 py-2 text-sm text-zinc-700 hover:border-sky-500/60 hover:text-sky-600 active:scale-[0.98] transition"
+                  className="flex items-center gap-2 whitespace-nowrap rounded-full border border-zinc-300/70 bg-white/80 px-3 py-2 text-sm text-zinc-700 hover:border-sky-500/60 hover:text-sky-600 active:scale-[0.98] shadow-sm hover:shadow transition duration-300 ease-out hover:-translate-y-0.5"
                 >
                   <span className="text-sky-600">{s.icon}</span>
                   {shortLabel(s.label)}
@@ -473,22 +509,10 @@ export default function TrainTherapyMenu() {
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-zinc-200/60 dark:border-zinc-800/70">
-          <div className="mx-auto max-w-6xl px-4 py-10">
-            <div className="grid md:grid-cols-2 gap-6 items-center">
-              <div className="text-sm text-zinc-600 dark:text-zinc-400">
-                © {new Date().getFullYear()} Train Therapy. All rights reserved.
-              </div>
-              <div className="flex justify-start md:justify-end gap-2">
-                <Pill>
-                  <span className="h-2 w-2 rounded-full bg-sky-500 inline-block" />
-                  Open today 8:00–22:00
-                </Pill>
-                <Pill>
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block" />
-                  Sugar‑free options
-                </Pill>
-              </div>
+        <footer className="border-t border-zinc-200/60 dark:border-zinc-800/70 bg-white/60 dark:bg-zinc-950/40 backdrop-blur">
+          <div className="mx-auto max-w-6xl px-4 py-8">
+            <div className="text-center text-sm text-zinc-600 dark:text-zinc-400">
+              © {new Date().getFullYear()} Train Therapy. All rights reserved.
             </div>
           </div>
         </footer>
