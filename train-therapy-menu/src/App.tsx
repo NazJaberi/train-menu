@@ -203,6 +203,7 @@ const imageMap: Record<string, string> = {
   "vitamin c": "/menu/Vitamin C/Vitamin C.png",
   "go green": "/menu/Go Green/Go Green.png",
   "carrots juice": "/menu/Carrot Juice/Carrot Juice.png",
+  "beetroot": "/menu/beetroot/beetroot.png",
 
   // Smoothies
   "mango smoothie": "/menu/Mango Smoothie/Mango Smoothie.png",
