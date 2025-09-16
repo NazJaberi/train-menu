@@ -12,6 +12,8 @@ import {
   Award,
   Cookie,
   Sparkles,
+  Sun,
+  Moon,
   X,
   CheckCircle,
 } from "lucide-react";
@@ -640,6 +642,58 @@ export default function TrainTherapyMenu() {
   const shortLabel = (label: string) => label.replace(/\s*\(.*?\)\s*/g, "");
 
   const [selected, setSelected] = useState<null | { item: Item; sectionId: string }>(null);
+  const [detailLoading, setDetailLoading] = useState<null | { message: string }>(null);
+  const [appLoading, setAppLoading] = useState(true);
+
+  // Theme management (persisted, with OS fallback)
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    const stored = localStorage.getItem("tt-theme");
+    if (stored === "dark") return true;
+    if (stored === "light") return false;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDark) root.classList.add('dark'); else root.classList.remove('dark');
+    localStorage.setItem('tt-theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setAppLoading(false), 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  const sectionLoadingMessage = (sectionId: string) => {
+    switch (sectionId) {
+      case 'hot': return 'Roasting your brew...';
+      case 'cold': return 'Chilling your coffee...';
+      case 'juices': return 'Blending your juice...';
+      case 'smoothies': return 'Blending your smoothie...';
+      case 'shots': return 'Charging up your shot...';
+      case 'protein': return 'Shaking your protein...';
+      case 'beef-protein': return 'Powering up your protein...';
+      case 'signature': return 'Crafting your signature pick...';
+      case 'snacks': return 'Plating your snack...';
+      default: return 'Preparing...';
+    }
+  };
+
+  const SectionIcon = ({ id, className = "" }: { id: string; className?: string }) => {
+    const cls = `h-6 w-6 text-sky-600 dark:text-sky-400 ${className}`;
+    switch (id) {
+      case 'hot': return <Coffee className={cls} />;
+      case 'cold': return <Snowflake className={cls} />;
+      case 'juices': return <CupSoda className={cls} />;
+      case 'smoothies': return <Leaf className={cls} />;
+      case 'shots': return <FlaskConical className={cls} />;
+      case 'protein': return <Sparkles className={cls} />;
+      case 'beef-protein': return <Beef className={cls} />;
+      case 'signature': return <Award className={cls} />;
+      case 'snacks': return <Cookie className={cls} />;
+      default: return <Sparkles className={cls} />;
+    }
+  };
 
   const handleScroll = (id: string) => {
     const el = document.getElementById(id);
@@ -672,14 +726,25 @@ export default function TrainTherapyMenu() {
                 Menu
               </div>
 
-              <div className="hidden sm:block relative justify-self-end">
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search the menu..."
-                  className="w-56 md:w-72 rounded-xl border border-zinc-300/70 dark:border-zinc-700/80 bg-white/80 dark:bg-zinc-900/70 pl-10 pr-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40"
-                />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+              <div className="flex items-center gap-2 justify-self-end">
+                <button
+                  className="inline-flex items-center gap-2 rounded-xl border border-zinc-300/70 dark:border-zinc-700/80 bg-white/80 dark:bg-zinc-900/70 px-3 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:border-sky-500/60 hover:text-sky-600 dark:hover:text-sky-400 transition"
+                  onClick={() => setIsDark((d) => !d)}
+                  aria-label="Toggle theme"
+                  title="Toggle theme"
+                >
+                  {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  <span className="hidden md:inline">Theme</span>
+                </button>
+                <div className="relative hidden sm:block">
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search the menu..."
+                    className="w-56 md:w-72 rounded-xl border border-zinc-300/70 dark:border-zinc-700/80 bg-white/80 dark:bg-zinc-900/70 pl-10 pr-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40"
+                  />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                </div>
               </div>
             </div>
           </div>
@@ -794,12 +859,50 @@ export default function TrainTherapyMenu() {
         {/* Sections */}
         <main className="mx-auto max-w-6xl px-4 pb-20 space-y-12 md:space-y-16">
           {sections.map((s) => (
-            <SectionBlock key={s.id} s={s} q={query} onSelect={(item) => setSelected({ item, sectionId: s.id })} />
+            <SectionBlock
+              key={s.id}
+              s={s}
+              q={query}
+              onSelect={(item) => {
+                const msg = sectionLoadingMessage(s.id);
+                setDetailLoading({ message: msg });
+                setTimeout(() => {
+                  setDetailLoading(null);
+                  setSelected({ item, sectionId: s.id });
+                }, 450);
+              }}
+            />
           ))}
         </main>
 
         {selected && (
           <DetailSheet item={selected.item} sectionId={selected.sectionId} onClose={() => setSelected(null)} />
+        )}
+
+        {/* App loading overlay */}
+        {appLoading && (
+          <div className="fixed inset-0 z-[70] flex items-center justify-center bg-white dark:bg-zinc-950">
+            <div className="flex flex-col items-center gap-3">
+              <Sparkles className="h-6 w-6 text-sky-600 dark:text-sky-400 animate-pulse" />
+              <div className="h-10 w-10 rounded-full border-2 border-sky-500 border-t-transparent animate-spin" />
+              <div className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">Blending your experience...</div>
+            </div>
+          </div>
+        )}
+
+        {/* Detail loading overlay */}
+        {detailLoading && (
+          <div className="fixed inset-0 z-[65] flex items-center justify-center bg-black/20 backdrop-blur-[1px]">
+            <div className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/70 bg-white/90 dark:bg-zinc-900/90 px-6 py-5 shadow-lg">
+              {/* Derive category from the loading message by reverse mapping (best-effort) is brittle; instead show a generic sparkles and spinner. */}
+              <Sparkles className="h-5 w-5 text-sky-600 dark:text-sky-400 animate-pulse" />
+              <div className="h-8 w-8 rounded-full border-2 border-sky-500 border-t-transparent animate-spin" />
+              <div className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 flex items-center gap-2">
+                {selected ? <SectionIcon id={selected.sectionId} /> : <Sparkles className="h-6 w-6 text-sky-600 dark:text-sky-400" />}
+                <span>{detailLoading.message}</span>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Footer */}
