@@ -23,7 +23,7 @@ import {
   ------------------------------------------------
   • Tailwind classes for styling
   • Works as a single React component (TSX)
-  • Costa‑inspired layout, but with Train Therapy colors (sky blue + black)
+  • Costa‑inspired layout, tuned to Train Therapy colors (sky blue + black)
   • Smooth in‑page navigation, search, price ranges
 
   Usage: import and render <TrainTherapyMenu /> anywhere in your app.
@@ -667,15 +667,15 @@ export default function TrainTherapyMenu() {
 
   const sectionLoadingMessage = (sectionId: string) => {
     switch (sectionId) {
-      case 'hot': return 'Roasting your brew...';
-      case 'cold': return 'Chilling your coffee...';
-      case 'juices': return 'Blending your juice...';
-      case 'smoothies': return 'Blending your smoothie...';
-      case 'shots': return 'Charging up your shot...';
-      case 'protein': return 'Shaking your protein...';
-      case 'beef-protein': return 'Powering up your protein...';
+      case 'hot': return 'Dialing in your shot...';
+      case 'cold': return 'Over ice and on point...';
+      case 'juices': return 'Pressing something fresh...';
+      case 'smoothies': return 'Blending something smooth...';
+      case 'shots': return 'Powering up your boost...';
+      case 'protein': return 'Shaking it up...';
+      case 'beef-protein': return 'Lean power incoming...';
       case 'signature': return 'Crafting your signature pick...';
-      case 'snacks': return 'Plating your snack...';
+      case 'snacks': return 'Plating your treat...';
       default: return 'Preparing...';
     }
   };
@@ -761,20 +761,18 @@ export default function TrainTherapyMenu() {
                   energy
                 </span>
               </h1>
-              <p className="mt-3 text-zinc-600 dark:text-zinc-300 max-w-prose">
-                An elegant, single‑page menu inspired by Costa’s layout but
-                matched to Train Therapy’s vibrant sky blue and black branding.
-              </p>
-
+<p className="mt-3 text-zinc-600 dark:text-zinc-300 max-w-prose">
+  Refuel, recover, and recharge. Our menu is carefully crafted with specialty coffee, nutrient-dense juices, and high-impact protein blends to help you achieve your fitness goals.
+</p>
               <div className="mt-5 flex flex-wrap gap-2">
                 <Pill active>
-                  <Sparkles className="h-4 w-4" /> Premium feel
+                  <Sparkles className="h-4 w-4" /> Barista‑crafted
                 </Pill>
                 <Pill>
-                  <Coffee className="h-4 w-4" /> Barista‑made
+                  <CheckCircle className="h-4 w-4" /> Protein‑packed
                 </Pill>
                 <Pill>
-                  <Cookie className="h-4 w-4" /> Sugar‑free snacks
+                  <Cookie className="h-4 w-4" /> No added sugar
                 </Pill>
               </div>
 
@@ -886,7 +884,7 @@ export default function TrainTherapyMenu() {
             <div className="flex flex-col items-center gap-3">
               <Sparkles className="h-6 w-6 text-sky-600 dark:text-sky-400 animate-pulse" />
               <div className="h-10 w-10 rounded-full border-2 border-sky-500 border-t-transparent animate-spin" />
-              <div className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">Blending your experience...</div>
+              <div className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">Crafting your fuel...</div>
             </div>
           </div>
         )}
