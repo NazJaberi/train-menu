@@ -561,6 +561,11 @@ function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
               </span>
             )}
           </div>
+          {item.description && (
+            <p className="text-sm text-zinc-600 dark:text-zinc-300 mt-1 max-w-[32ch] truncate">
+              {item.description}
+            </p>
+          )}
         </div>
         <div className="text-zinc-900 dark:text-zinc-100 font-semibold text-right shrink-0">
           <span className="tabular-nums tracking-tight text-base md:text-lg">{formatPrice(item.price)}</span>
