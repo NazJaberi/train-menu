@@ -119,8 +119,8 @@ const sectionsSeed: Section[] = [
     label: "Energy Shots",
     icon: <FlaskConical className="h-5 w-5" />,
     items: [
-      { name: "Boost Shots", price: 0.9 },
-      { name: "Ginger Shots", price: 0.7 },
+      { name: "Boost Shots", price: 1.1 },
+      { name: "Ginger Shots", price: 1.1 },
     ],
   },
   {
@@ -156,10 +156,10 @@ const sectionsSeed: Section[] = [
     icon: <Award className="h-5 w-5" />,
     items: [
       { name: "Acai Protein", price: 2.8, tag: "favorite" },
-      { name: "Zack Shake", price: 2.1 },
       { name: "Mixed Hydration", price: 2.1 },
       { name: "Alfredo Cappuccino", price: 2.2 },
       { name: "Ice Cream Mix", price: { min: 2.2, max: 2.3 } },
+      { name: "Zack Shake", price: 2.1 },
     ],
   },
   {
@@ -167,7 +167,8 @@ const sectionsSeed: Section[] = [
     label: "Snacks (Sugar-Free)",
     icon: <Cookie className="h-5 w-5" />,
     items: [
-      { name: "Protein Cookies", price: 1.7 },
+      { name: "Protein Cookies", price: 1.9 },
+      { name: "Acai Bowl", price: 3.5, tag: "favorite" },
       { name: "Tiramisu Cheese Cake", price: 2.7 },
       { name: "Chocolate Cheesecake", price: 2.7 },
       { name: "Blueberry Cheesecake", price: 2.7 },
@@ -242,13 +243,14 @@ const imageMap: Record<string, string> = {
   "beef cherry": "/menu/BEEF CHERRY.png",
 
   // Signature
-  "acai protein": "/menu/Acia Protien.png",
+  "acai protein": "/menu/Acai Protien.png",
   "mixed hydration": "/menu/Mixed Hydration.png",
   "alfredo cappuccino": "/menu/Alfredo Cappuccino.png",
   "ice cream mix": "/menu/ICE CREAM MIX.png",
 
   // Snacks
   "protein cookies": "/menu/PROTIEN COOKIES.png",
+  "acai bowl": "/menu/Acia Bowl.png",
   "tiramisu cheese cake": "/menu/tiramisu cheese cake.png",
   "chocolate cheesecake": "/menu/Chocolate cheesecake.png",
   "blueberry cheesecake": "/menu/Blueberry Cheesecake.png",
@@ -312,6 +314,7 @@ const descriptionMap: Record<string, string> = {
   "alfredo cappuccino": "Signature creamy cappuccino twist, indulgent.",
   "ice cream mix": "Dessert shake combining ice cream richness with a sip.",
   "protein cookies": "Soft-baked protein cookies with a light sweet finish.",
+  "acai bowl": "Thick acai blend topped with fruits and crunch for a cool bowl.",
   "tiramisu cheese cake": "Tiramisu-inspired, high-protein cheesecake.",
   "chocolate cheesecake": "Chocolatey, protein-forward cheesecake slice.",
   "blueberry cheesecake": "Blueberry-topped protein cheesecake.",
@@ -490,8 +493,8 @@ function Pill({
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm border transition-all ${
         active
-          ? "border-sky-500 text-sky-600 bg-sky-50 dark:bg-sky-500/10"
-          : "border-zinc-200 text-zinc-700 dark:text-zinc-200 dark:border-zinc-700"
+          ? "border-sky-500/60 text-sky-600 bg-sky-50/80 dark:bg-sky-500/10"
+          : "border-zinc-200/70 text-zinc-700 dark:text-zinc-200 dark:border-zinc-700/70 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/60"
       }`}
     >
       {children}
@@ -528,7 +531,7 @@ function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
     <div
       ref={ref}
       style={{ transitionDelay: `${Math.min(index * 40, 240)}ms` }}
-      className={`group flex flex-col items-stretch gap-3 rounded-2xl border border-zinc-200/70 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out overflow-hidden ${
+      className={`group flex flex-col items-stretch gap-3 rounded-2xl border border-zinc-200/70 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-[0_14px_50px_rgba(0,0,0,0.12)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-500 ease-out overflow-hidden motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.01] ${
         shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
       role="button"
@@ -544,7 +547,7 @@ function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
           <img
             src={item.image}
             alt={item.name}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             loading="lazy"
           />
         </div>
@@ -646,11 +649,11 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
   return (
     <div className="fixed inset-0 z-[60]">
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-100 transition-opacity"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-100 transition-opacity"
         onClick={onClose}
       />
       <div className="absolute inset-0 flex items-center justify-center p-2 md:p-4" onClick={onClose}>
-        <div className="w-full max-w-lg bg-white/90 dark:bg-zinc-900/90 border border-zinc-200/70 dark:border-zinc-800/70 rounded-3xl shadow-xl transition-transform" role="dialog" aria-modal="true">
+        <div className="w-full max-w-lg bg-white/90 dark:bg-zinc-900/90 border border-zinc-200/70 dark:border-sky-800/60 rounded-3xl shadow-xl transition-transform" role="dialog" aria-modal="true">
           <div className="relative p-4 md:p-6" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={onClose}
@@ -890,7 +893,7 @@ export default function TrainTherapyMenu() {
                   </span>
                 </h1>
                 <p className="text-zinc-600 dark:text-zinc-300 max-w-prose text-base md:text-lg">
-                  Refuel, recover, and recharge. Our menu is carefully crafted with specialty coffee, nutrient-dense juices, and high-impact protein blends to help you achieve your fitness goals.
+                  Refuel, recover, and recharge. Crafted coffees, vibrant juices, and protein-packed blends to keep you moving and feeling your best.
                 </p>
                 <div className="flex flex-wrap gap-2.5">
                   <Pill active>
@@ -911,22 +914,22 @@ export default function TrainTherapyMenu() {
                       e.preventDefault();
                       handleScroll("signature");
                     }}
-                    className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 text-white px-4 py-2.5 font-semibold shadow hover:shadow-lg transition min-w-[180px] justify-center"
-                  >
-                    Explore Signature <ChevronRight className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="#hot"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 text-white px-4 py-2.5 font-semibold shadow hover:shadow-lg motion-safe:hover:-translate-y-0.5 transition min-w-[180px] justify-center"
+                >
+                  Explore Signature <ChevronRight className="h-4 w-4" />
+                </a>
+                <a
+                  href="#hot"
                     onClick={(e) => {
                       e.preventDefault();
                       handleScroll("hot");
                     }}
-                    className="inline-flex items-center gap-2 rounded-2xl border border-sky-500/40 text-sky-700 dark:text-sky-400 px-4 py-2.5 font-semibold hover:bg-sky-50/60 dark:hover:bg-sky-500/10 transition min-w-[150px] justify-center"
-                  >
-                    See Coffee
-                  </a>
-                </div>
+                  className="inline-flex items-center gap-2 rounded-2xl border border-sky-500/40 text-sky-700 dark:text-sky-400 px-4 py-2.5 font-semibold hover:bg-sky-50/60 dark:hover:bg-sky-500/10 transition motion-safe:hover:-translate-y-0.5 min-w-[150px] justify-center"
+                >
+                  See Coffee
+                </a>
               </div>
+            </div>
 
               <div className="relative">
                 <div className="rounded-[2rem] border border-sky-500/30 bg-gradient-to-br from-white/80 to-white/40 dark:from-zinc-900/70 dark:to-zinc-900/40 p-6 sm:p-7 shadow-[0_20px_80px_rgba(0,191,255,0.15)] transition-all duration-700 ease-out opacity-100 translate-y-0 space-y-4">
