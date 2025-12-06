@@ -39,6 +39,7 @@ type Item = {
   name: string;
   price: Price;
   tag?: string; // e.g., "favorite"
+  description?: string;
   image?: string; // optional image path e.g. "/menu/latte.jpg"
 };
 
@@ -65,7 +66,7 @@ const sectionsSeed: Section[] = [
       { name: "Latte", price: 1.5 },
       { name: "Cappuccino", price: 1.5 },
       { name: "Americano", price: 1.3 },
-      { name: "Spanish Latte", price: 1.6 },
+      { name: "Spanish Latte", price: 1.8 },
       { name: "Hot Chocolate", price: 1.9 },
       { name: "Single Espresso", price: 0.9 },
       { name: "Double Espresso", price: 1.1 },
@@ -80,7 +81,7 @@ const sectionsSeed: Section[] = [
     items: [
       { name: "Iced Latte", price: 1.5 },
       { name: "Iced Americano", price: 1.3 },
-      { name: "Iced Spanish", price: 1.7 },
+      { name: "Iced Spanish", price: 1.8 },
       { name: "Vanilla Milk Shake", price: 2 },
       { name: "Saffron Latte", price: 2.1 },
       { name: "Salted Caramel", price: 1.8 },
@@ -134,7 +135,7 @@ const sectionsSeed: Section[] = [
       { name: "Strawberry", price: 1.5 },
       { name: "Mass Gainer", price: 1.5 },
       { name: "Cookies & Cream", price: 1.5 },
-      { name: "Salted Caramel", price: 1.5 },
+      { name: "Salted Caramel Protein", price: 1.5 },
       { name: "Peanut Butter", price: 1.5 },
     ],
   },
@@ -143,10 +144,10 @@ const sectionsSeed: Section[] = [
     label: "Beef Protein",
     icon: <Beef className="h-5 w-5" />,
     items: [
-      { name: "Mixed Berries", price: 1.5 },
-      { name: "Tropical", price: 1.5 },
-      { name: "Cola", price: 1.5 },
-      { name: "Cherry", price: 1.5 },
+      { name: "Beef Mixed Berries", price: 1.5 },
+      { name: "Beef Tropical", price: 1.5 },
+      { name: "Beef Cola", price: 1.5 },
+      { name: "Beef Cherry", price: 1.5 },
     ],
   },
   {
@@ -154,7 +155,7 @@ const sectionsSeed: Section[] = [
     label: "Signature",
     icon: <Award className="h-5 w-5" />,
     items: [
-      { name: "Acai Protein", price: 2.5, tag: "favorite" },
+      { name: "Acai Protein", price: 2.8, tag: "favorite" },
       { name: "Zack Shake", price: 2.1 },
       { name: "Mixed Hydration", price: 2.1 },
       { name: "Alfredo Cappuccino", price: 2.2 },
@@ -167,10 +168,15 @@ const sectionsSeed: Section[] = [
     icon: <Cookie className="h-5 w-5" />,
     items: [
       { name: "Protein Cookies", price: 1.7 },
-      { name: "Protein Cheese Cake", price: { min: 1.8, max: 2.1 } },
-      { name: "Chia Pudding", price: 1.8 },
+      { name: "Tiramisu Cheese Cake", price: 2.7 },
+      { name: "Chocolate Cheesecake", price: 2.7 },
+      { name: "Blueberry Cheesecake", price: 2.7 },
+      { name: "Strawberry Cheesecake", price: 2.7 },
+      { name: "Chia Pudding", price: 1.9 },
       { name: "Almond Croissants", price: { min: 1.8, max: 2.5 } },
-      { name: "Seeds Bar", price: 1.5 },
+      { name: "Seeds Bar", price: 1.9 },
+      { name: "Energy Ball", price: 1.9 },
+      { name: "Choco Peanuts", price: 2.5 },
     ],
   },
 ];
@@ -178,24 +184,30 @@ const sectionsSeed: Section[] = [
 // Map item names to static image paths in /public/menu
 const imageMap: Record<string, string> = {
   // Hot Drinks
+  "latte": "/menu/Latte.png",
   "cappuccino": "/menu/cappucino.png",
   "americano": "/menu/americano.png",
-  "spanish latte": "/menu/iced spanish latte.png",
+  "spanish latte": "/menu/Hot Spanish Latte.png",
   "hot chocolate": "/menu/hot coco.png",
   "single espresso": "/menu/espresso.png",
   "double espresso": "/menu/espresso.png",
+  "cortado": "/menu/Cortado.png",
   "affogato": "/menu/affogato.png",
 
   // Cold Drinks
   "iced latte": "/menu/ice latte.png",
   "iced americano": "/menu/iced americano.png",
   "iced spanish": "/menu/iced spanish latte.png",
+  "vanilla milk shake": "/menu/Vanilla Milk Shake.png",
+  "saffron latte": "/menu/Saffron Latte.png",
   "salted caramel": "/menu/iced salted caramel.png",
 
   // Juices
   "melon juice": "/menu/melon juice.png",
   "mango": "/menu/mango juice.png",
   "mixed berries": "/menu/mix berries juice.png",
+  "mixed berries juice": "/menu/mix berries juice.png",
+  "vitamin c": "/menu/Vitamin C.png",
   "go green": "/menu/go green.png",
   "beetroot": "/menu/beetrot.png",
   "carrots juice": "/menu/Carrot Juice.png",
@@ -207,15 +219,120 @@ const imageMap: Record<string, string> = {
   "mixed nuts": "/menu/nuts smoothie.png",
   "banana": "/menu/banana smoothie.png",
   "cookies shake": "/menu/cookies shake.png",
+
+  // Shots
+  "boost shots": "/menu/Boost Shots.png",
+  "ginger shots": "/menu/Ginger Shots.png",
+
+  // Protein Shakes
+  "chocolate": "/menu/Chocolate Protien Shake.png",
+  "vanilla": "/menu/Vanilla Protein Shake.png",
+  "choco coco nut": "/menu/Choco Coco Nut Protein Shake.png",
+  "brownie": "/menu/Brownie Protein Shake.png",
+  "strawberry": "/menu/Strawberry Protein Shake.png",
+  "mass gainer": "/menu/Mass Gainer.png",
+  "cookies & cream": "/menu/Cookies and Cream Protien Shake.png",
+  "peanut butter": "/menu/Peanut Butter Protien Shake.png",
+  "salted caramel protein": "/menu/iced salted caramel.png",
+
+  // Beef Protein
+  "beef mixed berries": "/menu/BEEF Mixed Berries.png",
+  "beef tropical": "/menu/BEEF Tropical.png",
+  "beef cola": "/menu/BEEF Cola.png",
+  "beef cherry": "/menu/BEEF CHERRY.png",
+
+  // Signature
+  "acai protein": "/menu/Acia Protien.png",
+  "mixed hydration": "/menu/Mixed Hydration.png",
+  "alfredo cappuccino": "/menu/Alfredo Cappuccino.png",
+  "ice cream mix": "/menu/ICE CREAM MIX.png",
+
+  // Snacks
+  "protein cookies": "/menu/PROTIEN COOKIES.png",
+  "tiramisu cheese cake": "/menu/tiramisu cheese cake.png",
+  "chocolate cheesecake": "/menu/Chocolate cheesecake.png",
+  "blueberry cheesecake": "/menu/Blueberry Cheesecake.png",
+  "strawberry cheesecake": "/menu/Strawberry Cheesecake.png",
+  "chia pudding": "/menu/Chia Pudding.png",
+  "almond croissants": "/menu/Almond Croisant.png",
+  "seeds bar": "/menu/Seeds Bar.png",
+  "energy ball": "/menu/Energy ball.png",
+  "choco peanuts": "/menu/Choco Peanuts.png",
 };
 
 const nameKey = (s: string) => s.trim().toLowerCase();
+
+const descriptionMap: Record<string, string> = {
+  latte: "Silky steamed milk over a smooth espresso shot.",
+  cappuccino: "Equal parts espresso, steamed milk, and foam for a classic balance.",
+  americano: "Bold espresso diluted with hot water for a clean, long coffee.",
+  "spanish latte": "Rich espresso sweetened with creamy condensed milk.",
+  "hot chocolate": "Comforting cocoa with a velvety milk base.",
+  "single espresso": "Concentrated coffee shot for instant focus.",
+  "double espresso": "Double the intensity and aroma in one cup.",
+  cortado: "Equal espresso and milk for a soft, low-acid sip.",
+  affogato: "Espresso poured over ice cream for a dessert-like treat.",
+  "iced latte": "Chilled milk and espresso over ice, light and refreshing.",
+  "iced americano": "Cool, long black over ice with bright espresso notes.",
+  "iced spanish": "Sweet, creamy iced coffee with condensed milk.",
+  "vanilla milk shake": "Classic vanilla ice cream blended to a creamy shake.",
+  "saffron latte": "Fragrant saffron with creamy milk and espresso.",
+  "salted caramel": "Sweet-salty caramel paired with chilled espresso.",
+  "melon juice": "Fresh-pressed melon, naturally hydrating and crisp.",
+  mango: "Sun-ripened mango, bright and juicy.",
+  "mixed berries": "A mix of berries for a tangy-sweet antioxidant boost.",
+  "vitamin c": "Citrus-forward blend aimed at immunity and refreshment.",
+  "go green": "Leafy greens, apple, and citrus for a detox-friendly juice.",
+  beetroot: "Earthy beet with a hint of sweetness and stamina support.",
+  "carrots juice": "Carrot-forward, vibrant and vitamin A rich.",
+  "mango smoothie": "Creamy mango smoothie with tropical sweetness.",
+  "avocado smoothie": "Lush avocado base with healthy fats and fiber.",
+  "supper berries": "Berry-heavy smoothie with tart-sweet balance.",
+  "mixed nuts": "Nut-based smoothie packed with protein and good fats.",
+  banana: "Banana smoothie for steady energy and potassium.",
+  "cookies shake": "Cookie-crumble shake for a dessert-style sip.",
+  "boost shots": "Quick energy shot to fire up your session.",
+  "ginger shots": "Zesty ginger kick for immunity and digestion.",
+  chocolate: "Chocolate whey shake to satisfy and recover.",
+  vanilla: "Smooth vanilla protein for versatile recovery.",
+  "choco coco nut": "Chocolate meets coconut for a rich, nutty protein shake.",
+  brownie: "Dessert-like brownie protein blend for post-workout treats.",
+  strawberry: "Bright strawberry protein with a creamy finish.",
+  "mass gainer": "High-calorie blend to support weight and muscle gain.",
+  "cookies & cream": "Cookie pieces and cream flavor in a protein base.",
+  "salted caramel protein": "Sweet-salty caramel twist on a protein shake.",
+  "peanut butter": "Peanut butter protein for satiety and muscle repair.",
+  "beef mixed berries": "Clear berry-flavored beef isolate, dairy-free.",
+  "beef tropical": "Tropical, light beef isolate for easy sipping.",
+  "beef cola": "Cola-inspired, low-carb beef isolate.",
+  "beef cherry": "Cherry-flavored beef isolate, crisp and lean.",
+  "acai protein": "Acai-forward signature protein smoothie, antioxidant rich.",
+  "zack shake": "Balanced meal-like shake with fruit and nutty notes.",
+  "mixed hydration": "Electrolyte-focused, light hydration blend.",
+  "alfredo cappuccino": "Signature creamy cappuccino twist, indulgent.",
+  "ice cream mix": "Dessert shake combining ice cream richness with a sip.",
+  "protein cookies": "Soft-baked protein cookies with a light sweet finish.",
+  "tiramisu cheese cake": "Tiramisu-inspired, high-protein cheesecake.",
+  "chocolate cheesecake": "Chocolatey, protein-forward cheesecake slice.",
+  "blueberry cheesecake": "Blueberry-topped protein cheesecake.",
+  "strawberry cheesecake": "Strawberry swirl protein cheesecake.",
+  "chia pudding": "Overnight chia with creamy texture and fiber.",
+  "almond croissants": "Buttery croissant filled with almond cream.",
+  "seeds bar": "Seed-packed bar for slow, sustained energy.",
+  "energy ball": "Bite-sized oat/seed ball for quick fuel.",
+  "choco peanuts": "Chocolate-coated peanuts for a crunchy treat.",
+};
 
 const sections: Section[] = sectionsSeed.map((sec) => ({
   ...sec,
   items: sec.items.map((it) => {
     const img = imageMap[nameKey(it.name)];
-    return img ? { ...it, image: img } : it;
+    const desc = descriptionMap[nameKey(it.name)];
+    return {
+      ...it,
+      ...(img ? { image: img } : {}),
+      ...(desc ? { description: desc } : {}),
+    };
   }),
 }));
 
@@ -546,16 +663,21 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
               />
             )}
 
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
-                  {item.name}
-                </h3>
-                {item.tag === "favorite" && (
-                  <div className="mt-1 inline-flex items-center gap-1 text-sky-600 text-sm">
-                    <Sparkles className="h-4 w-4" /> Favorite pick
-                  </div>
-                )}
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
+                {item.name}
+              </h3>
+              {item.description && (
+                <p className="text-sm text-zinc-600 dark:text-zinc-300 mt-1">
+                  {item.description}
+                </p>
+              )}
+              {item.tag === "favorite" && (
+                <div className="mt-1 inline-flex items-center gap-1 text-sky-600 text-sm">
+                  <Sparkles className="h-4 w-4" /> Favorite pick
+                </div>
+              )}
               </div>
               <div className="text-zinc-900 dark:text-zinc-100 font-extrabold text-lg md:text-xl shrink-0">
                 {activePrice.toFixed(2)}
