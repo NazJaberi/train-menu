@@ -19,12 +19,12 @@ import {
 } from "lucide-react";
 
 /*
-  Train Therapy — One‑page Menu (Full Single File)
-  ------------------------------------------------
-  • Tailwind classes for styling
-  • Works as a single React component (TSX)
-  • Costa‑inspired layout, tuned to Train Therapy colors (sky blue + black)
-  • Smooth in‑page navigation, search, price ranges
+  Train Therapy - One-page Menu (single file)
+  -------------------------------------------
+  - Tailwind classes for styling
+  - Works as a single React component (TSX)
+  - Costa-inspired layout tuned to Train Therapy colors (sky blue + black)
+  - Smooth in-page navigation, search, price ranges
 
   Usage: import and render <TrainTherapyMenu /> anywhere in your app.
   If you want to show a logo image, replace the placeholder box in the
@@ -154,7 +154,7 @@ const sectionsSeed: Section[] = [
     label: "Signature",
     icon: <Award className="h-5 w-5" />,
     items: [
-      { name: "Açaí Protein", price: 2.5, tag: "favorite" },
+      { name: "Acai Protein", price: 2.5, tag: "favorite" },
       { name: "Zack Shake", price: 2.1 },
       { name: "Mixed Hydration", price: 2.1 },
       { name: "Alfredo Cappuccino", price: 2.2 },
@@ -163,7 +163,7 @@ const sectionsSeed: Section[] = [
   },
   {
     id: "snacks",
-    label: "Snacks (Sugar‑Free)",
+    label: "Snacks (Sugar-Free)",
     icon: <Cookie className="h-5 w-5" />,
     items: [
       { name: "Protein Cookies", price: 1.7 },
@@ -178,40 +178,35 @@ const sectionsSeed: Section[] = [
 // Map item names to static image paths in /public/menu
 const imageMap: Record<string, string> = {
   // Hot Drinks
-  "latte": "/menu/Latte/Latte.png",
-  "cappuccino": "/menu/Cappuccino/Cappuccino.png",
-  "americano": "/menu/Americano/Americano.png",
-  "spanish latte": "/menu/spanish latte/spanish latte.png",
-  "hot chocolate": "/menu/Hot Coco/Hot Chocolate.png",
-  "single espresso": "/menu/Espresso/espresso.png",
-  "double espresso": "/menu/Espresso/espresso.png",
-  "cortado": "/menu/Cortado/Cortado.png",
-  "affogato": "/menu/Affogato/Affogato.png",
+  "cappuccino": "/menu/cappucino.png",
+  "americano": "/menu/americano.png",
+  "spanish latte": "/menu/iced spanish latte.png",
+  "hot chocolate": "/menu/hot coco.png",
+  "single espresso": "/menu/espresso.png",
+  "double espresso": "/menu/espresso.png",
+  "affogato": "/menu/affogato.png",
 
   // Cold Drinks
-  "iced latte": "/menu/iced Late/Iced latte.png",
-  "iced americano": "/menu/Iced Americano/Iced_Americano.png",
-  "iced spanish": "/menu/iced spanish latte/iced_spanish_latte.png",
-  "vanilla milk shake": "/menu/Vanilla milk shake/Vanilla milk shake.png",
-  "saffron latte": "/menu/Saffron latte/Saffron latte.png",
-  "salted caramel": "/menu/Iced Salted Caramel/Iced Salted Caramel.png",
+  "iced latte": "/menu/ice latte.png",
+  "iced americano": "/menu/iced americano.png",
+  "iced spanish": "/menu/iced spanish latte.png",
+  "salted caramel": "/menu/iced salted caramel.png",
 
   // Juices
-  "melon juice": "/menu/Melon juice/Melon juice.png",
-  "mango": "/menu/Mango Juice/Mango Juice.png",
-  "mixed berries": "/menu/mixed berries/mixed berries.png",
-  "vitamin c": "/menu/Vitamin C/Vitamin C.png",
-  "go green": "/menu/Go Green/Go Green.png",
-  "carrots juice": "/menu/Carrot Juice/Carrot Juice.png",
-  "beetroot": "/menu/beetroot/beetroot.png",
+  "melon juice": "/menu/melon juice.png",
+  "mango": "/menu/mango juice.png",
+  "mixed berries": "/menu/mix berries juice.png",
+  "go green": "/menu/go green.png",
+  "beetroot": "/menu/beetrot.png",
+  "carrots juice": "/menu/Carrot Juice.png",
 
   // Smoothies
-  "mango smoothie": "/menu/Mango Smoothie/Mango Smoothie.png",
-  "avocado smoothie": "/menu/avocado smoothie/avocado smoothie.png",
-  "supper berries": "/menu/mixed berries smoothie/mixed berries smoothie.png",
-  "mixed nuts": "/menu/nuts smoothie/nuts smoothie.png",
-  "banana": "/menu/Banana Smoothie/Banana Smoothie.png",
-  "cookies shake": "/menu/Cookies shake/Cookies shake.png",
+  "mango smoothie": "/menu/mango smoothie.png",
+  "avocado smoothie": "/menu/avocado smoothie.png",
+  "supper berries": "/menu/mix berries smoothie.png",
+  "mixed nuts": "/menu/nuts smoothie.png",
+  "banana": "/menu/banana smoothie.png",
+  "cookies shake": "/menu/cookies shake.png",
 };
 
 const nameKey = (s: string) => s.trim().toLowerCase();
@@ -233,11 +228,11 @@ const nutritionBySection: Record<string, Nutrition> = {
       "Low calories when taken without added sugar",
     ],
     macros: [
-      { label: "Calories", value: "5–180 kcal" },
-      { label: "Protein", value: "0–9 g" },
-      { label: "Carbs", value: "0–20 g" },
-      { label: "Fat", value: "0–9 g" },
-      { label: "Sugar", value: "0–18 g" },
+      { label: "Calories", value: "5-180 kcal" },
+      { label: "Protein", value: "0-9 g" },
+      { label: "Carbs", value: "0-20 g" },
+      { label: "Fat", value: "0-9 g" },
+      { label: "Sugar", value: "0-18 g" },
     ],
   },
   cold: {
@@ -247,64 +242,64 @@ const nutritionBySection: Record<string, Nutrition> = {
       "Same antioxidants as hot coffee",
     ],
     macros: [
-      { label: "Calories", value: "20–220 kcal" },
-      { label: "Protein", value: "0–10 g" },
-      { label: "Carbs", value: "2–28 g" },
-      { label: "Fat", value: "0–10 g" },
-      { label: "Sugar", value: "0–24 g" },
+      { label: "Calories", value: "20-220 kcal" },
+      { label: "Protein", value: "0-10 g" },
+      { label: "Carbs", value: "2-28 g" },
+      { label: "Fat", value: "0-10 g" },
+      { label: "Sugar", value: "0-24 g" },
     ],
   },
   juices: {
     benefits: [
       "Hydration with natural fruit micronutrients",
       "Rich source of Vitamin C in many blends",
-      "Refreshing, great pre/post‑workout pick‑me‑up",
+      "Refreshing, great pre/post-workout pick-me-up",
     ],
     macros: [
-      { label: "Calories", value: "120–180 kcal" },
-      { label: "Carbs", value: "25–40 g" },
-      { label: "Sugar", value: "20–36 g" },
-      { label: "Fiber", value: "1–3 g" },
+      { label: "Calories", value: "120-180 kcal" },
+      { label: "Carbs", value: "25-40 g" },
+      { label: "Sugar", value: "20-36 g" },
+      { label: "Fiber", value: "1-3 g" },
     ],
   },
   smoothies: {
     benefits: [
       "Fruit blends with fiber for steady energy",
-      "Add‑ins can support recovery & satiety",
+      "Add-ins can support recovery & satiety",
       "Cooling and satisfying",
     ],
     macros: [
-      { label: "Calories", value: "180–350 kcal" },
-      { label: "Protein", value: "3–15 g" },
-      { label: "Carbs", value: "25–55 g" },
-      { label: "Fat", value: "2–12 g" },
-      { label: "Fiber", value: "2–6 g" },
+      { label: "Calories", value: "180-350 kcal" },
+      { label: "Protein", value: "3-15 g" },
+      { label: "Carbs", value: "25-55 g" },
+      { label: "Fat", value: "2-12 g" },
+      { label: "Fiber", value: "2-6 g" },
     ],
   },
   shots: {
     benefits: [
       "Quick ginger/citrus kick",
       "Zesty boost to start the day",
-      "Light and low‑calorie",
+      "Light and low-calorie",
     ],
     macros: [
-      { label: "Calories", value: "10–40 kcal" },
-      { label: "Carbs", value: "2–8 g" },
-      { label: "Sugar", value: "1–6 g" },
+      { label: "Calories", value: "10-40 kcal" },
+      { label: "Carbs", value: "2-8 g" },
+      { label: "Sugar", value: "1-6 g" },
     ],
   },
   protein: {
     benefits: [
-      "High‑quality protein supports muscle recovery",
-      "Great post‑training option",
-      "Custom flavors & add‑ins",
+      "High-quality protein supports muscle recovery",
+      "Great post-training option",
+      "Custom flavors & add-ins",
     ],
     macros: [
-      { label: "Calories", value: "180–300 kcal" },
-      { label: "Protein", value: "20–35 g" },
-      { label: "Carbs", value: "3–18 g" },
-      { label: "Fat", value: "2–8 g" },
-      { label: "Sugar", value: "0–8 g" },
+      { label: "Calories", value: "180-300 kcal" },
+      { label: "Protein", value: "20-35 g" },
+      { label: "Carbs", value: "3-18 g" },
+      { label: "Fat", value: "2-8 g" },
+      { label: "Sugar", value: "0-8 g" },
     ],
   },
   "beef-protein": {
@@ -314,39 +309,39 @@ const nutritionBySection: Record<string, Nutrition> = {
       "Light & refreshing flavors",
     ],
     macros: [
-      { label: "Calories", value: "160–260 kcal" },
-      { label: "Protein", value: "20–30 g" },
-      { label: "Carbs", value: "2–12 g" },
-      { label: "Fat", value: "1–6 g" },
-      { label: "Sugar", value: "0–6 g" },
+      { label: "Calories", value: "160-260 kcal" },
+      { label: "Protein", value: "20-30 g" },
+      { label: "Carbs", value: "2-12 g" },
+      { label: "Fat", value: "1-6 g" },
+      { label: "Sugar", value: "0-6 g" },
     ],
   },
   signature: {
     benefits: [
       "House favorites with balanced flavors",
       "Crafted for an elevated taste",
-      "Great as a treat or post‑workout",
+      "Great as a treat or post-workout",
     ],
     macros: [
-      { label: "Calories", value: "160–320 kcal" },
-      { label: "Protein", value: "6–20 g" },
-      { label: "Carbs", value: "15–45 g" },
-      { label: "Fat", value: "2–12 g" },
-      { label: "Sugar", value: "8–28 g" },
+      { label: "Calories", value: "160-320 kcal" },
+      { label: "Protein", value: "6-20 g" },
+      { label: "Carbs", value: "15-45 g" },
+      { label: "Fat", value: "2-12 g" },
+      { label: "Sugar", value: "8-28 g" },
     ],
   },
   snacks: {
     benefits: [
-      "Protein‑forward, sugar‑conscious options",
+      "Protein-forward, sugar-conscious options",
       "Ideal with coffee or as a snack",
       "Satisfying textures",
     ],
     macros: [
-      { label: "Calories", value: "150–350 kcal" },
-      { label: "Protein", value: "8–20 g" },
-      { label: "Carbs", value: "10–30 g" },
-      { label: "Fat", value: "6–18 g" },
-      { label: "Sugar", value: "1–10 g" },
+      { label: "Calories", value: "150-350 kcal" },
+      { label: "Protein", value: "8-20 g" },
+      { label: "Carbs", value: "10-30 g" },
+      { label: "Fat", value: "6-18 g" },
+      { label: "Sugar", value: "1-10 g" },
     ],
   },
 };
@@ -357,7 +352,7 @@ const currency = "BHD"; // change if needed
 
 function formatPrice(price: Price) {
   if (typeof price === "number") return price.toFixed(2);
-  return `${price.min.toFixed(2)}–${price.max.toFixed(2)}`;
+  return `${price.min.toFixed(2)}-${price.max.toFixed(2)}`;
 }
 
 function slugify(s: string) {
@@ -416,7 +411,7 @@ function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
     <div
       ref={ref}
       style={{ transitionDelay: `${Math.min(index * 40, 240)}ms` }}
-      className={`group flex items-center gap-4 md:gap-5 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur p-4 shadow-sm hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out cursor-pointer active:scale-[0.99] ${
+      className={`group flex flex-col items-stretch gap-3 rounded-2xl border border-zinc-200/70 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out overflow-hidden ${
         shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
       role="button"
@@ -428,28 +423,32 @@ function MenuCard({ item, index = 0 }: { item: Item; index?: number }) {
       }}
     >
       {item.image && (
-        <img
-          src={item.image}
-          alt={item.name}
-          className="h-24 w-24 md:h-28 md:w-28 rounded-xl object-cover flex-shrink-0 border border-zinc-200/60 dark:border-zinc-800/80"
-          loading="lazy"
-        />
-      )}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <h4 className="text-zinc-900 dark:text-zinc-100 text-base md:text-lg font-semibold tracking-tight truncate">
-            {item.name}
-          </h4>
-          {item.tag === "favorite" && (
-            <span className="text-sky-500" aria-label="Chef's pick">
-              ★
-            </span>
-          )}
+        <div className="w-full aspect-[4/3] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+          <img
+            src={item.image}
+            alt={item.name}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+            loading="lazy"
+          />
         </div>
-      </div>
-      <div className="text-zinc-900 dark:text-zinc-100 font-semibold text-right">
-        <span className="tabular-nums tracking-tight">{formatPrice(item.price)}</span>
-        <span className="ml-1 text-xs opacity-70">{currency}</span>
+      )}
+      <div className="px-4 pb-4 pt-1 flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <h4 className="text-zinc-900 dark:text-zinc-50 text-base md:text-lg font-semibold tracking-tight">
+              {item.name}
+            </h4>
+            {item.tag === "favorite" && (
+              <span className="text-sky-500 text-sm" aria-label="Chef's pick">
+                *
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="text-zinc-900 dark:text-zinc-100 font-semibold text-right shrink-0">
+          <span className="tabular-nums tracking-tight text-base md:text-lg">{formatPrice(item.price)}</span>
+          <span className="ml-1 text-xs opacity-70">{currency}</span>
+        </div>
       </div>
     </div>
   );
@@ -479,7 +478,7 @@ function SectionBlock({ s, q, onSelect }: { s: Section; q: string; onSelect: (it
         </h3>
         <div className="h-px flex-1 bg-gradient-to-r from-sky-500/50 to-transparent ml-2" />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
         {filtered.map((item, idx) => (
           <div key={`${s.id}-${slugify(item.name)}`} data-section={s.id} onClick={() => onSelect(item, s.id)}>
             <MenuCard item={item} index={idx} />
@@ -500,9 +499,9 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
     ? (size === "regular" ? (item.price as any).min : (item.price as any).max)
     : (item.price as number);
 
-  // For macro values like "180–300 kcal", pick lower for regular, upper for large
+  // For macro values like "180-300 kcal", pick lower for regular, upper for large
   const pickMacroForSize = (val: string) => {
-    const parts = val.split(/\s*(?:–|-)\s*/);
+    const parts = val.split(/\s*(?:-|-)\s*/);
     if (parts.length === 2) {
       const suffix = (val.match(/([a-zA-Z%]+)$/) || [""])[0];
       const low = parts[0].trim();
@@ -574,7 +573,7 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
                   }`}
                   onClick={() => setSize("regular")}
                 >
-                  Regular · {(item.price as any).min.toFixed(2)} {currency}
+                  Regular -+ {(item.price as any).min.toFixed(2)} {currency}
                 </button>
                 <button
                   className={`px-3 py-1.5 rounded-full border text-sm ${
@@ -584,7 +583,7 @@ function DetailSheet({ item, sectionId, onClose }: { item: Item; sectionId: stri
                   }`}
                   onClick={() => setSize("large")}
                 >
-                  Large · {(item.price as any).max.toFixed(2)} {currency}
+                  Large -+ {(item.price as any).max.toFixed(2)} {currency}
                 </button>
               </div>
             )}
@@ -706,9 +705,9 @@ export default function TrainTherapyMenu() {
       <div className="min-h-screen bg-[radial-gradient(1200px_600px_at_100%_-10%,rgba(0,191,255,0.12),transparent),radial-gradient(1200px_600px_at_0%_120%,rgba(0,191,255,0.10),transparent)] dark:bg-[radial-gradient(1200px_600px_at_100%_-10%,rgba(0,191,255,0.18),transparent),radial-gradient(1200px_600px_at_0%_120%,rgba(0,191,255,0.16),transparent)] bg-zinc-50 dark:bg-zinc-950">
         {/* Nav */}
         <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/40 border-b border-zinc-200/60 dark:border-zinc-800/70 shadow-sm">
-          <div className="mx-auto max-w-6xl px-4 py-3">
-            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-              <div className="flex items-center gap-2 justify-self-start">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 md:py-4">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-3 md:gap-4">
+              <div className="flex items-center gap-3 justify-between md:justify-start">
                 <img src="/logo.jpg" alt="Train Therapy" className="h-12 w-12 md:h-14 md:w-14 rounded-2xl object-cover border border-sky-500/30" />
                 <nav className="hidden md:flex items-center gap-1">
                   {sections.map((s) => (
@@ -723,11 +722,11 @@ export default function TrainTherapyMenu() {
                 </nav>
               </div>
 
-              <div className="justify-self-center text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+              <div className="justify-self-start md:justify-self-center text-lg sm:text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
                 Menu
               </div>
 
-              <div className="flex items-center gap-2 justify-self-end">
+              <div className="flex items-center gap-2 justify-self-end w-full md:w-auto justify-end">
                 <button
                   className="inline-flex items-center gap-2 rounded-xl border border-zinc-300/70 dark:border-zinc-700/80 bg-white/80 dark:bg-zinc-900/70 px-3 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:border-sky-500/60 hover:text-sky-600 dark:hover:text-sky-400 transition"
                   onClick={() => setIsDark((d) => !d)}
@@ -750,73 +749,88 @@ export default function TrainTherapyMenu() {
             </div>
           </div>
         </header>
-
         {/* Hero */}
-        <section className="mx-auto max-w-6xl px-4 pt-10 md:pt-14 pb-6">
-          <div className="grid md:grid-cols-2 gap-6 items-center">
-            <div className="transition-all duration-700 ease-out opacity-100">
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
-                Crafted with
-                <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-700">
-                  energy
-                </span>
-              </h1>
-<p className="mt-3 text-zinc-600 dark:text-zinc-300 max-w-prose">
-  Refuel, recover, and recharge. Our menu is carefully crafted with specialty coffee, nutrient-dense juices, and high-impact protein blends to help you achieve your fitness goals.
-</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <Pill active>
-                  <Sparkles className="h-4 w-4" /> Barista‑crafted
-                </Pill>
-                <Pill>
-                  <CheckCircle className="h-4 w-4" /> Protein‑packed
-                </Pill>
-                <Pill>
-                  <Cookie className="h-4 w-4" /> No added sugar
-                </Pill>
-              </div>
-
-              <div className="mt-6 flex gap-3">
-                <a
-                  href="#signature"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleScroll("signature");
-                  }}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 text-white px-4 py-2.5 font-semibold shadow hover:shadow-lg transition"
-                >
-                  Explore Signature <ChevronRight className="h-4 w-4" />
-                </a>
-                <a
-                  href="#hot"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleScroll("hot");
-                  }}
-                  className="inline-flex items-center gap-2 rounded-2xl border border-sky-500/40 text-sky-700 dark:text-sky-400 px-4 py-2.5 font-semibold hover:bg-sky-50/60 dark:hover:bg-sky-500/10 transition"
-                >
-                  See Coffee
-                </a>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="rounded-[2rem] border border-sky-500/30 bg-gradient-to-br from-white/70 to-white/30 dark:from-zinc-900/60 dark:to-zinc-900/30 p-6 shadow-[0_20px_80px_rgba(0,191,255,0.15)] transition-all duration-700 ease-out opacity-100 translate-y-0">
-                <div className="text-[11px] uppercase tracking-[0.25em] text-sky-600 dark:text-sky-400 font-semibold mb-2">
-                  Today’s Pick
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 pt-12 md:pt-16 pb-8 md:pb-12">
+          <div className="relative overflow-hidden rounded-[32px] border border-sky-100/70 dark:border-sky-500/10 bg-white/70 dark:bg-zinc-900/60 shadow-[0_20px_80px_rgba(0,191,255,0.12)] p-6 sm:p-8 md:p-10">
+            <div className="pointer-events-none absolute -left-10 top-0 h-44 w-44 bg-sky-200/40 dark:bg-sky-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute right-0 -bottom-10 h-52 w-52 bg-cyan-100/50 dark:bg-cyan-500/10 blur-3xl" />
+            <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-6 lg:gap-10 items-center relative">
+              <div className="transition-all duration-700 ease-out opacity-100 space-y-4 md:space-y-5">
+                <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+                  Crafted with
+                  <span className="ml-2 text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-700">
+                    energy
+                  </span>
+                </h1>
+                <p className="text-zinc-600 dark:text-zinc-300 max-w-prose text-base md:text-lg">
+                  Refuel, recover, and recharge. Our menu is carefully crafted with specialty coffee, nutrient-dense juices, and high-impact protein blends to help you achieve your fitness goals.
+                </p>
+                <div className="flex flex-wrap gap-2.5">
+                  <Pill active>
+                    <Sparkles className="h-4 w-4" /> Barista crafted
+                  </Pill>
+                  <Pill>
+                    <CheckCircle className="h-4 w-4" /> Protein packed
+                  </Pill>
+                  <Pill>
+                    <Cookie className="h-4 w-4" /> No added sugar
+                  </Pill>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-lg md:text-xl font-bold text-zinc-900 dark:text-zinc-50">
-                      Açaí Protein
-                    </div>
-                    <div className="text-zinc-600 dark:text-zinc-300 text-sm">
-                      Rich, refreshing & protein‑packed
-                    </div>
+
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="#signature"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScroll("signature");
+                    }}
+                    className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 text-white px-4 py-2.5 font-semibold shadow hover:shadow-lg transition min-w-[180px] justify-center"
+                  >
+                    Explore Signature <ChevronRight className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="#hot"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScroll("hot");
+                    }}
+                    className="inline-flex items-center gap-2 rounded-2xl border border-sky-500/40 text-sky-700 dark:text-sky-400 px-4 py-2.5 font-semibold hover:bg-sky-50/60 dark:hover:bg-sky-500/10 transition min-w-[150px] justify-center"
+                  >
+                    See Coffee
+                  </a>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="rounded-[2rem] border border-sky-500/30 bg-gradient-to-br from-white/80 to-white/40 dark:from-zinc-900/70 dark:to-zinc-900/40 p-6 sm:p-7 shadow-[0_20px_80px_rgba(0,191,255,0.15)] transition-all duration-700 ease-out opacity-100 translate-y-0 space-y-4">
+                  <div className="text-[11px] uppercase tracking-[0.25em] text-sky-600 dark:text-sky-400 font-semibold">
+                    Today's Pick
                   </div>
-                  <div className="text-2xl font-extrabold text-sky-600">
-                    2.50
-                    <span className="text-xs ml-1 font-semibold">{currency}</span>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-lg md:text-xl font-bold text-zinc-900 dark:text-zinc-50">
+                          Acai Protein
+                        </div>
+                        <div className="text-zinc-600 dark:text-zinc-300 text-sm">
+                          Rich, refreshing & protein packed
+                        </div>
+                      </div>
+                      <div className="text-2xl font-extrabold text-sky-600">
+                        2.50
+                        <span className="text-xs ml-1 font-semibold">{currency}</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="rounded-2xl border border-sky-100/60 dark:border-sky-500/20 bg-white/80 dark:bg-zinc-900/60 px-3 py-2 text-sm text-zinc-700 dark:text-zinc-200">
+                        <div className="text-[11px] uppercase tracking-[0.12em] text-sky-600 dark:text-sky-400">Macros</div>
+                        Protein + recovery
+                      </div>
+                      <div className="rounded-2xl border border-sky-100/60 dark:border-sky-500/20 bg-white/80 dark:bg-zinc-900/60 px-3 py-2 text-sm text-zinc-700 dark:text-zinc-200">
+                        <div className="text-[11px] uppercase tracking-[0.12em] text-sky-600 dark:text-sky-400">Serve</div>
+                        Chill or hot, your pick
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -825,7 +839,7 @@ export default function TrainTherapyMenu() {
         </section>
 
         {/* Mobile/iPad categories above search */}
-        <div className="mx-auto max-w-6xl px-4 xl:hidden mt-2">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 xl:hidden mt-2">
           <div className="-mx-1 overflow-x-auto no-scrollbar">
             <div className="flex gap-2 px-1 pb-2">
               {sections.map((s) => (
@@ -843,7 +857,7 @@ export default function TrainTherapyMenu() {
         </div>
 
         {/* Search (mobile) */}
-        <div className="mx-auto max-w-6xl px-4 pb-4 sm:hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 pb-4 sm:hidden">
           <div className="relative">
             <input
               value={query}
@@ -856,7 +870,7 @@ export default function TrainTherapyMenu() {
         </div>
 
         {/* Sections */}
-        <main className="mx-auto max-w-6xl px-4 pb-20 space-y-12 md:space-y-16">
+        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 pb-20 space-y-12 md:space-y-16">
           {sections.map((s) => (
             <SectionBlock
               key={s.id}
@@ -906,9 +920,9 @@ export default function TrainTherapyMenu() {
 
         {/* Footer */}
         <footer className="border-t border-zinc-200/60 dark:border-zinc-800/70 bg-white/60 dark:bg-zinc-950/40 backdrop-blur">
-          <div className="mx-auto max-w-6xl px-4 py-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-8">
             <div className="text-center text-sm text-zinc-600 dark:text-zinc-400">
-              © {new Date().getFullYear()} Train Therapy. All rights reserved.
+              (c) {new Date().getFullYear()} Train Therapy. All rights reserved.
             </div>
           </div>
         </footer>
@@ -916,3 +930,9 @@ export default function TrainTherapyMenu() {
     </div>
   );
 }
+
+
+
+
+
+
